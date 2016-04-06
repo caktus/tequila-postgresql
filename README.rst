@@ -71,4 +71,11 @@ role:
 - ``db_password`` **required**
 - ``pg_version`` **default:** 9.3
 - ``postgresql_config`` **default:** empty dict
-- ``app_minions`` **required**
+- ``app_minions`` **required:** combined list of web servers and celery worker servers
+
+The ``app_minions`` variable can be constructed from Ansible's
+inventory information, like ::
+
+    app_minions: "{{ groups['web'] | union(groups['worker']) }}"
+
+in one of your project's variable files.
