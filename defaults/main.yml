@@ -1,2 +1,3 @@
 ---
 postgresql_config: {}
+db_role: "master"
