@@ -52,4 +52,4 @@
 
 - name: allow app minions through the firewall
   ufw: rule=allow port=5432 from_ip={{ hostvars[item].ansible_eth0.ipv4.address }}
-  with_items: app_minions
+  with_items: "{{ app_minions }}"
