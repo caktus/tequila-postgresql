@@ -1,0 +1,6 @@
+---
+pg_version: 9.3
+postgresql_config: {}
+db_role: "master"
+db_name: "{{ project_name }}_{{ env_name }}"
+db_user: "{{ project_name }}_{{ env_name }}"
