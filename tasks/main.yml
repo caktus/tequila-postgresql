@@ -25,6 +25,8 @@
                    password="{{ db_password }}"
                    encrypted=yes
   become_user: postgres
+  vars:
+    ansible_ssh_pipelining: true
 
 - name: create the project database
   postgresql_db: name="{{ db_name }}"
@@ -35,6 +37,8 @@
                  lc_ctype='en_US.UTF-8'
                  template='template0'
   become_user: postgres
+  vars:
+    ansible_ssh_pipelining: true
 
 - name: configure postgres authentication
   template: src="pg_hba.conf"
