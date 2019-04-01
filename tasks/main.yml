@@ -1,4 +1,15 @@
 ---
+- name: add key for postgres repo
+  apt_key:
+    id: ACCC4CF8
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    state: present
+
+- name: add postgres repo to apt sources
+  apt_repository:
+    repo: "deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main"
+    update_cache: yes
+
 - name: install postgres
   apt: name={{ item }} state=present
   with_items:
