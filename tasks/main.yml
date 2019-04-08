@@ -9,6 +9,7 @@
   apt_repository:
     repo: "deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main"
     update_cache: yes
+    filename: "pgdg"
 
 - name: install postgres
   apt: name={{ item }} state=present
