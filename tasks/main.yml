@@ -31,26 +31,14 @@
 # isn't a problem with Ansible >= 1.6.  Hopefully.
 # ref: https://github.com/ansible/ansible/issues/7246
 
-- name: create the project postgres user
-  postgresql_user: name="{{ db_user }}"
-                   role_attr_flags=NOCREATEDB,NOCREATEROLE,NOSUPERUSER
-                   password="{{ db_password }}"
+# This works without needing another privileged postgres user because we are
+# sudo'ing to the 'postgres' unix user first.
+- name: create the admin postgres user
+  postgresql_user: name="{{ pg_user }}"
+                   role_attr_flags="{{ pg_user_attrs }}"
+                   password="{{ pg_password }}"
                    encrypted=yes
   become_user: postgres
-  vars:
-    ansible_ssh_pipelining: true
-
-- name: create the project database
-  postgresql_db: name="{{ db_name }}"
-                 owner="{{ db_user }}"
-                 state=present
-                 encoding='UTF-8'
-                 lc_collate='en_US.UTF-8'
-                 lc_ctype='en_US.UTF-8'
-                 template='template0'
-  become_user: postgres
-  vars:
-    ansible_ssh_pipelining: true
 
 - name: configure postgres authentication
   template: src="pg_hba.conf"
