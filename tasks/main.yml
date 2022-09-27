@@ -5,9 +5,18 @@
     url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
     state: present
 
+- name: decide if archive repo is necessary for this host
+  set_fact:
+    use_archive_repo: "{{ ansible_distribution_major_version|int < min_supported_ubuntu_release }}"
+
+- name: set host Ubuntu version-specific portions of repository
+  set_fact:
+    repo_host: "{{ 'apt-archive' if use_archive_repo else 'apt' }}"
+    package: "{{ 'pgdg-archive' if use_archive_repo else 'pgdg' }}"
+
 - name: add postgres repo to apt sources
   apt_repository:
-    repo: "deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main"
+    repo: "deb http://{{ repo_host }}.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-{{ package }} main"
     update_cache: yes
     filename: "pgdg"
 

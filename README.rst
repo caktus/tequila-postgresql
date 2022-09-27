@@ -74,7 +74,13 @@ role:
 - ``db_password`` **required**
 - ``pg_version`` **default:** 9.3
 - ``postgresql_config`` **default:** empty dict
+- ``min_supported_ubuntu_release`` **default:** 18
 - ``app_minions`` **required:** combined list of web servers and celery worker servers
+
+``min_supported_ubuntu_release`` is the major version number of the oldest
+Ubuntu release currently supported by PostgreSQL's currently-supported APT
+repositories.  PostgreSQL's archive repositories will be used for older Ubuntu
+releases.
 
 The ``app_minions`` variable can be constructed from Ansible's
 inventory information, like ::
